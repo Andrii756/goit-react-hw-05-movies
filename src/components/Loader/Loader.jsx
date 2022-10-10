@@ -1,14 +1,18 @@
-import Container from 'components/Container';
-import { LoaderWrapper, Text } from './Loader.styled';
+import { RotatingLines } from 'react-loader-spinner';
+import { LoaderBox } from './Loader.styled';
 
-function Loader() {
+const Loader = () => {
   return (
-    <Container>
-      <LoaderWrapper>
-        <Text>Loading...</Text>
-      </LoaderWrapper>
-    </Container>
+    <LoaderBox>
+      <RotatingLines
+        strokeColor="red"
+        strokeWidth="5"
+        animationDuration="0.75"
+        width="96"
+        visible={true}
+      />
+    </LoaderBox>
   );
-}
+};
 
 export default Loader;

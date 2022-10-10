@@ -1,36 +1,31 @@
-import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Header from 'components/Header';
-import Footer from 'components/Footer';
-import Loader from 'components/Loader';
+import SharedLayout from 'components/SharedLayout';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import { lazy } from 'react';
 
-const HomePage = lazy(() =>
-  import('pages/HomePage' /* webpackChunkName: "home-page" */),
+const Home = lazy(() => import('../../pages/Home'));
+const MovieCard = lazy(() => import('../../pages/MovieCard'));
+const MovieDataPage = lazy(() => import('../../pages/MovieDataPage'));
+const MovieCastBox = lazy(() =>
+  import('../../pages/MovieCastBox/MovieCastBox')
 );
-const MoviesPage = lazy(() =>
-  import('pages/MoviesPage' /* webpackChunkName: "movies-page" */),
-);
-const MovieDetailsPage = lazy(() =>
-  import('pages/MovieDetailsPage' /* webpackChunkName: "movie-details-page" */),
+const MovieReviewBox = lazy(() =>
+  import('../../pages/MovieReviewBox/MovieReviewBox')
 );
 
-function App() {
+const App = () => {
   return (
-    <>
-      <Header title="MOVIES" />
-
-      <Suspense fallback={<Loader />}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/movies" element={<MoviesPage />} />
-          <Route path="/movies/:movieId/*" element={<MovieDetailsPage />} />
-          <Route path="*" element={<HomePage />} />
-        </Routes>
-      </Suspense>
-
-      <Footer />
-    </>
+    <Routes>
+      <Route path="/" element={<SharedLayout />}>
+        <Route index element={<Home />} />
+        <Route path="movies" element={<MovieDataPage />} />
+        <Route path="movies/:id" element={<MovieCard />}>
+          <Route path="cast" element={<MovieCastBox />} />
+          <Route path="review" element={<MovieReviewBox />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" />} />
+      </Route>
+    </Routes>
   );
-}
+};
 
 export default App;
